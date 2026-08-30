@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LAB // Tech Daddy AI — Brandon Menard</title>
+<meta name="description" content="The experiments. Post-quantum chains, uncensorable forums, browser operating systems, 33 public repos. The lab behind brandonmenard.dev.">
+<link rel="canonical" href="https://brandonmenard.dev/lab">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#08070c;
+  --panel:#110f1a;
+  --panel-2:#181528;
+  --violet:#8b5cf6;
+  --violet-hot:#c084fc;
+  --phosphor:#5ce1e6;
+  --bone:#e8dcc0;
+  --ash:#7a7192;
+  --line:rgba(139,92,246,.22);
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --display:'Anton',Impact,sans-serif;
+  --body:'Space Grotesk',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--void);
+  color:#e6e2f0;
+  font-family:var(--body);
+  line-height:1.55;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.022) 0 1px,transparent 1px 3px);
+  mix-blend-mode:overlay;
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(120% 60% at 50% -10%,rgba(139,92,246,.20),transparent 60%);
+}
+a{color:inherit}
+.wrap{width:min(1080px,92vw);margin:0 auto;position:relative;z-index:1}
+
+/* ---------- BOOT ---------- */
+#boot{
+  position:fixed;inset:0;z-index:99;background:var(--void);
+  font-family:var(--mono);font-size:13px;color:var(--phosphor);
+  padding:clamp(20px,7vw,60px);display:flex;flex-direction:column;justify-content:center;
+}
+#boot .b-line{opacity:0;white-space:pre-wrap}
+#boot .bar{height:16px;width:0;background:var(--phosphor);margin:14px 0 20px;max-width:280px}
+#boot .skip{position:absolute;bottom:24px;left:0;right:0;text-align:center;color:var(--ash);font-size:11px;letter-spacing:.18em}
+#boot.done{opacity:0;pointer-events:none;transition:opacity .5s ease}
+@keyframes fadein{to{opacity:1}}
+@keyframes fill{to{width:280px}}
+
+/* ---------- PROMPT BAR ---------- */
+.promptbar{
+  position:sticky;top:0;z-index:20;
+  background:rgba(8,7,12,.86);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;
+}
+.promptbar .wrap{display:flex;align-items:center;gap:14px;height:46px}
+.pb-id{color:var(--violet-hot);font-weight:600;white-space:nowrap}
+.pb-nav{margin-left:auto;display:flex;gap:16px;overflow-x:auto;scrollbar-width:none}
+.pb-nav::-webkit-scrollbar{display:none}
+.pb-nav a{color:var(--ash);text-decoration:none;white-space:nowrap}
+.pb-nav a:hover,.pb-nav a:focus-visible{color:var(--bone)}
+.dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;flex:none}
+
+/* ---------- HERO ---------- */
+.hero{padding:clamp(56px,13vw,120px) 0 clamp(40px,8vw,70px)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--ash);text-transform:uppercase}
+h1{
+  font-family:var(--display);
+  font-size:clamp(52px,15.5vw,148px);
+  line-height:.86;letter-spacing:-.01em;text-transform:uppercase;
+  margin:18px 0 0;
+}
+h1 .v{color:var(--violet-hot);display:block}
+.tag{
+  font-family:var(--mono);font-size:clamp(13px,3.6vw,17px);
+  color:var(--bone);margin-top:26px;min-height:2.6em;
+}
+.tag .caret{background:var(--phosphor);color:var(--void);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.lede{max-width:52ch;margin-top:18px;color:#b9b2cf;font-size:clamp(15px,4vw,17px)}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{
+  font-family:var(--mono);font-size:13px;letter-spacing:.06em;
+  padding:14px 22px;border:1px solid var(--violet);
+  text-decoration:none;display:inline-block;transition:.18s;
+}
+.btn-solid{background:var(--violet);color:#0b0812;font-weight:600}
+.btn-solid:hover{background:var(--violet-hot);border-color:var(--violet-hot)}
+.btn-ghost{color:var(--violet-hot);background:transparent}
+.btn-ghost:hover{background:rgba(139,92,246,.12)}
+
+.readout{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  margin-top:44px;background:var(--line);border:1px solid var(--line);
+  font-family:var(--mono);
+}
+.readout div{background:var(--void);padding:16px 14px}
+.readout b{display:block;font-size:clamp(20px,6vw,28px);color:var(--bone);font-weight:500}
+.readout span{font-size:10.5px;letter-spacing:.16em;color:var(--ash);text-transform:uppercase}
+
+/* ---------- SECTIONS ---------- */
+section{padding:clamp(56px,11vw,104px) 0;border-top:1px solid var(--line)}
+.cmd{font-family:var(--mono);font-size:12.5px;color:var(--ash);margin-bottom:10px}
+.cmd i{color:var(--phosphor);font-style:normal}
+.cmd b{color:var(--bone);font-weight:500}
+h2{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(30px,8.5vw,58px);line-height:.95;letter-spacing:-.005em;
+}
+.sub{color:#a9a1c2;margin-top:14px;max-width:56ch;font-size:15px}
+
+.ornament{display:flex;align-items:center;gap:12px;color:var(--violet);margin:28px 0;font-size:11px}
+.ornament::before,.ornament::after{content:"";height:1px;background:var(--line);flex:1}
+
+/* ---------- BUILDS ---------- */
+.builds{display:grid;gap:14px;margin-top:34px}
+.card{
+  background:var(--panel);border:1px solid var(--line);
+  padding:22px;text-decoration:none;display:block;transition:.2s;position:relative;
+}
+.card:hover,.card:focus-visible{background:var(--panel-2);border-color:var(--violet);transform:translateY(-2px)}
+.card h3{font-family:var(--display);text-transform:uppercase;font-size:26px;letter-spacing:.01em}
+.card p{color:#a9a1c2;font-size:14.5px;margin-top:8px}
+.meta{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+  color:var(--ash);text-transform:uppercase;margin-top:16px;
+  display:flex;flex-wrap:wrap;gap:6px 16px;
+}
+.meta .live{color:#4ade80}
+.card .arrow{position:absolute;top:20px;right:22px;color:var(--violet);font-family:var(--mono)}
+
+/* ---------- COMMITS ---------- */
+.commits{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:20px}
+.commit{
+  background:var(--void);padding:14px 16px;text-decoration:none;
+  display:grid;grid-template-columns:1fr auto;gap:2px 14px;
+  font-family:var(--mono);transition:.15s;align-items:baseline;
+}
+.commit:hover{background:var(--panel-2)}
+.commit .r{color:var(--bone);font-size:14px}
+.commit .l{grid-column:1;font-size:10.5px;color:var(--ash);letter-spacing:.1em;text-transform:uppercase}
+.commit .d{grid-row:1/3;grid-column:2;font-size:10.5px;color:var(--violet);letter-spacing:.1em}
+
+/* ---------- PACKAGES ---------- */
+.pkgs{display:grid;gap:14px;margin-top:34px}
+.pkg{background:var(--panel);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column}
+.pkg.feature{border-color:var(--violet);background:linear-gradient(180deg,rgba(139,92,246,.10),var(--panel))}
+.pkg .name{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--violet-hot);text-transform:uppercase}
+.pkg .price{font-family:var(--display);font-size:38px;margin:12px 0 4px;color:var(--bone)}
+.pkg .price small{font-family:var(--mono);font-size:11px;color:var(--ash);letter-spacing:.1em;display:block;margin-top:6px}
+.pkg ul{list-style:none;margin:18px 0 24px;font-size:14px;color:#b9b2cf}
+.pkg li{padding:7px 0 7px 22px;position:relative;border-bottom:1px dashed rgba(139,92,246,.14)}
+.pkg li::before{content:"▸";position:absolute;left:0;color:var(--violet)}
+.pkg .btn{margin-top:auto;text-align:center}
+
+/* ---------- FEED ---------- */
+.feed{display:grid;gap:12px;margin-top:34px}
+.post{
+  aspect-ratio:1;background:var(--panel);border:1px solid var(--line);
+  padding:18px;display:flex;flex-direction:column;justify-content:flex-end;
+  text-decoration:none;transition:.2s;overflow:hidden;
+}
+.post:hover{border-color:var(--violet)}
+.post .orn{color:var(--violet);font-size:10px;margin-bottom:10px;letter-spacing:.4em}
+.post .hl{font-family:var(--display);text-transform:uppercase;font-size:clamp(19px,5vw,23px);line-height:1.02}
+.post .hl em{color:var(--violet-hot);font-style:normal}
+.post .views{font-family:var(--mono);font-size:11px;color:var(--ash);margin-top:12px;letter-spacing:.1em}
+
+/* ---------- CONTACT ---------- */
+.contact-grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:34px}
+.contact-grid a{
+  background:var(--void);padding:20px;text-decoration:none;
+  display:flex;justify-content:space-between;align-items:center;gap:14px;transition:.18s;
+}
+.contact-grid a:hover{background:var(--panel-2)}
+.contact-grid .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--ash);text-transform:uppercase}
+.contact-grid .v{color:var(--bone);font-size:15px;text-align:right;word-break:break-all}
+
+footer{border-top:1px solid var(--line);padding:34px 0 46px;font-family:var(--mono);font-size:11px;color:var(--ash);letter-spacing:.1em}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+
+.reveal{opacity:0;transform:translateY(18px)}
+.reveal.in{opacity:1;transform:none;transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
+
+:focus-visible{outline:2px solid var(--phosphor);outline-offset:3px}
+
+@media(min-width:760px){
+  .readout{grid-template-columns:repeat(4,1fr)}
+  .builds{grid-template-columns:repeat(2,1fr)}
+  .builds .card:first-child{grid-column:1/-1}
+  .pkgs{grid-template-columns:repeat(3,1fr)}
+  .feed{grid-template-columns:repeat(3,1fr)}
+  .contact-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div id="boot" aria-hidden="true">
+  <div class="b-line" style="animation:fadein .01s .1s forwards">{Dread_OS} BIOS 6.0</div>
+  <div class="bar" style="animation:fill 1.1s .2s cubic-bezier(.5,0,.2,1) forwards"></div>
+  <div class="b-line" style="animation:fadein .01s .5s forwards">Build date: 2026-08-30</div>
+  <div class="b-line" style="animation:fadein .01s .8s forwards">Cores: 4    Operator: brandon_menard</div>
+  <div class="b-line" style="animation:fadein .01s 1.1s forwards">System check: OK</div>
+  <div class="b-line" style="animation:fadein .01s 1.4s forwards">Memory test: PASSED</div>
+  <div class="b-line" style="animation:fadein .01s 1.7s forwards; color:var(--violet-hot)">Mounting /techdaddy_ai ...</div>
+  <div class="skip">TAP ANYWHERE TO SKIP</div>
+</div>
+
+<div class="promptbar">
+  <div class="wrap">
+    <span class="dot"></span>
+    <span class="pb-id">root@techdaddy:~/lab$</span>
+    <nav class="pb-nav">
+      <a href="#builds">./builds</a>
+      <a href="#feed">./feed</a>
+      <a href="#contact">./contact</a>
+      <a href="/" style="color:var(--violet-hot)">cd ..</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">The lab — brandonmenard.dev</p>
+    <h1>Tech<br><span class="v">Daddy AI</span></h1>
+    <p class="tag"><span id="typer"></span><span class="caret">&nbsp;</span></p>
+    <p class="lede">This is the side that doesn't pay yet. Protocols, forums, operating systems — the stuff I build because nobody asked for it. The paid work lives on the <a href="/" style="color:var(--violet-hot)">main site</a>.</p>
+    <div class="cta-row">
+      <a class="btn btn-solid" href="#builds">See the experiments</a>
+      <a class="btn btn-ghost" href="https://instagram.com/techdaddy_ai">Follow @techdaddy_ai</a>
+    </div>
+    <div class="readout">
+      <div><b>31.7K</b><span>Views / 30 days</span></div>
+      <div><b>28.2K</b><span>Top post</span></div>
+      <div><b>33</b><span>Public repos</span></div>
+      <div><b>3–5</b><span>Day build time</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="builds">
+  <div class="wrap">
+    <p class="cmd"><i>$</i> ls <b>./builds</b> —— 5 volumes mounted</p>
+    <h2>Things I made<br>that shouldn't exist</h2>
+    <p class="sub">Every one of these started as a post on the page. These are the live versions.</p>
+
+    <div class="builds">
+      <a class="card reveal" href="https://rougechain.io">
+        <span class="arrow">↗</span>
+        <h3>RougeChain</h3>
+        <p>A Layer 1 built quantum-resistant from genesis, not patched into it later. Ticker: XRGE.</p>
+        <div class="meta"><span class="live">● LIVE</span><span>Layer 1</span><span>Post-quantum</span><span>rougechain.io</span></div>
+      </a>
+      <a class="card reveal" href="https://qwalla.io">
+        <span class="arrow">↗</span>
+        <h3>Qwalla</h3>
+        <p>Encrypted wallet, messenger and mail in one app. Send value and words down the same private pipe.</p>
+        <div class="meta"><span class="live">● LIVE</span><span>Wallet</span><span>Messaging</span></div>
+      </a>
+      <a class="card reveal" href="https://antireddit.com">
+        <span class="arrow">↗</span>
+        <h3>AntiReddit</h3>
+        <p>The forum the internet forgot how to be. No shadowbans, public moderation logs, self-promo allowed.</p>
+        <div class="meta"><span class="live">● LIVE</span><span>Forum</span><span>Transparent mod</span></div>
+      </a>
+      <a class="card reveal" href="https://gltchrunner.com">
+        <span class="arrow">↗</span>
+        <h3>GltchRunner</h3>
+        <p>AI image and video generation with model personas, plus a creator earnings program.</p>
+        <div class="meta"><span class="live">● LIVE</span><span>Gen AI</span><span>Creator payouts</span></div>
+      </a>
+      <a class="card reveal" href="#contact">
+        <span class="arrow">↗</span>
+        <h3>Dread_OS</h3>
+        <p>A full desktop operating system that boots inside a browser tab. The post that did 28.2K.</p>
+        <div class="meta"><span>● DEMO</span><span>Browser OS</span><span>Web</span></div>
+      </a>
+    </div>
+
+    <div class="ornament">◆ ✦ ◆</div>
+    <p class="cmd"><i>$</i> git log <b>--all</b> —— last 10 days</p>
+    <div class="commits">
+      <a class="commit" href="https://github.com/cyberdreadx/rougechain-node"><span class="r">rougechain-node</span><span class="l">TypeScript · Apache-2.0</span><span class="d">Aug 28</span></a>
+      <a class="commit" href="https://github.com/cyberdreadx/Qwalla"><span class="r">Qwalla</span><span class="l">Expo / React Native</span><span class="d">Aug 29</span></a>
+      <a class="commit" href="https://github.com/cyberdreadx/rougechain-wallet"><span class="r">rougechain-wallet</span><span class="l">Browser extension · MIT</span><span class="d">Aug 17</span></a>
+      <a class="commit" href="https://github.com/cyberdreadx/cyberpunk-grok-api"><span class="r">cyberpunk-grok-api</span><span class="l">TypeScript · ★3</span><span class="d">Aug 29</span></a>
+      <a class="commit" href="https://github.com/cyberdreadx/gltchtrade"><span class="r">gltchtrade</span><span class="l">Python · MIT</span><span class="d">Aug 22</span></a>
+      <a class="commit" href="https://github.com/cyberdreadx/divine_emergence"><span class="r">divine_emergence</span><span class="l">TypeScript</span><span class="d">Aug 26</span></a>
+    </div>
+    <p class="sub" style="margin-top:18px">Six languages across 33 public repos — TypeScript, Python, Rust, JavaScript, HTML, CSS. <a href="https://github.com/cyberdreadx" style="color:var(--violet-hot)">Read the source →</a></p>
+  </div>
+</section>
+
+<section id="bridge">
+  <div class="wrap">
+    <p class="cmd"><i>$</i> cd <b>../work</b> —— the paid side</p>
+    <h2>I also build<br>the boring stuff</h2>
+    <p class="sub">Booking flows, storefronts, ticketing, full platforms — for practitioners, performers and local businesses in South Florida and remote. Fifteen live sites, custom code, your accounts, you own it.</p>
+    <div class="cta-row" style="margin-top:28px">
+      <a class="btn btn-solid" href="/">See the client work</a>
+      <a class="btn btn-ghost" href="https://calendly.com/brandonmenard/30min">Book 30 minutes</a>
+    </div>
+  </div>
+</section>
+
+<section id="feed">
+  <div class="wrap">
+    <p class="cmd"><i>$</i> tail <b>./feed</b> —— @techdaddy_ai</p>
+    <h2>Latest from the page</h2>
+
+    <div class="feed">
+      <a class="post reveal" href="https://instagram.com/techdaddy_ai">
+        <div class="orn">◆ ✦ ◆</div>
+        <div class="hl"><em>This developer</em> made an OS website similar to Linux in browser</div>
+        <div class="views">👁 28.2K · SWIPE FOR MORE ›››</div>
+      </a>
+      <a class="post reveal" href="https://instagram.com/techdaddy_ai">
+        <div class="orn">◆ ✦ ◆</div>
+        <div class="hl"><em>Quantum proof</em> blockchain drops new encrypted wallet and messenger in app stores</div>
+        <div class="views">👁 2,581 · SWIPE FOR MORE ›››</div>
+      </a>
+      <a class="post reveal" href="https://instagram.com/techdaddy_ai">
+        <div class="orn">◆ ✦ ◆</div>
+        <div class="hl"><em>Meta admits</em> their AI is training on your private messages</div>
+        <div class="views">👁 NEW · SWIPE FOR MORE ›››</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <p class="cmd"><i>$</i> open <b>./contact</b> —— usually replies same day</p>
+    <h2>Let's build it</h2>
+    <p class="sub">Book a call, or just send the link to what you've got now.</p>
+
+    <div class="contact-grid">
+      <a href="https://calendly.com/brandonmenard/30min"><span class="k">Book a call</span><span class="v">30 min, free →</span></a>
+      <a href="https://wa.me/19547436264"><span class="k">WhatsApp</span><span class="v">+1 954 743 6264</span></a>
+      <a href="mailto:brandonmenard@proton.me"><span class="k">Email</span><span class="v">brandonmenard@proton.me</span></a>
+      <a href="https://github.com/cyberdreadx"><span class="k">Source code</span><span class="v">github.com/cyberdreadx</span></a>
+      <a href="/"><span class="k">Client work</span><span class="v">brandonmenard.dev</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 BRANDON MENARD</span>
+    <span>@TECHDADDY_AI · @CYBERDREADX</span>
+    <span>POWERED BY ROUGECHAIN</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var boot = document.getElementById('boot');
+
+  function killBoot(){
+    if(!boot || boot.classList.contains('done')) return;
+    boot.classList.add('done');
+    setTimeout(function(){ boot.remove(); }, 520);
+  }
+  if(reduce){ boot.remove(); } else {
+    setTimeout(killBoot, 2600);
+    document.addEventListener('click', killBoot, {once:true});
+    document.addEventListener('touchstart', killBoot, {once:true});
+    document.addEventListener('keydown', killBoot, {once:true});
+  }
+
+  // typing line
+  var lines = [
+    'post-quantum blockchains',
+    'forums with no shadowbans',
+    'operating systems in a browser tab',
+    'landing pages that convert'
+  ];
+  var el = document.getElementById('typer');
+  if(reduce){ el.textContent = 'I build ' + lines.join(' · '); }
+  else {
+    var li=0, ci=0, del=false;
+    (function tick(){
+      var full = 'I build ' + lines[li];
+      ci += del ? -1 : 1;
+      el.textContent = full.slice(0, ci);
+      var wait = del ? 28 : 55;
+      if(!del && ci === full.length){ del = true; wait = 1600; }
+      else if(del && ci === 8){ del = false; li = (li+1) % lines.length; wait = 260; }
+      setTimeout(tick, wait);
+    })();
+  }
+
+  // scroll reveals
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.15});
+  document.querySelectorAll('.reveal').forEach(function(n,i){
+    n.style.transitionDelay = (i % 3) * 70 + 'ms';
+    io.observe(n);
+  });
+})();
+</script>
+</body>
+</html>
