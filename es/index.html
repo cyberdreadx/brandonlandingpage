@@ -559,6 +559,159 @@ body.nav-open{overflow:hidden}
   html{scroll-behavior:auto}
 }
 </style>
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://brandonmenard.dev/#brandon",
+      "name": "Brandon Menard",
+      "url": "https://brandonmenard.dev/",
+      "jobTitle": "Web Developer",
+      "email": "mailto:brandonmenard@proton.me",
+      "image": "https://brandonmenard.dev/og-image-square.png",
+      "sameAs": [
+        "https://x.com/cyberdreadx",
+        "https://tiktok.com/@cyberdreadx"
+      ]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://brandonmenard.dev/#business",
+      "name": "Brandon Menard",
+      "alternateName": "Brandon Menard // Web Developer",
+      "description": "Sitios web a medida para terapeutas, artistas y negocios locales. Reservas, pagos, venta de entradas y plataformas completas. Sur de Florida y remoto.",
+      "url": "https://brandonmenard.dev/es/",
+      "image": "https://brandonmenard.dev/og-image.png",
+      "logo": "https://brandonmenard.dev/icon-512.png",
+      "email": "mailto:brandonmenard@proton.me",
+      "telephone": "+1-954-743-6264",
+      "founder": {
+        "@id": "https://brandonmenard.dev/#brandon"
+      },
+      "priceRange": "$$",
+      "currenciesAccepted": "USD",
+      "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "South Florida"
+        },
+        {
+          "@type": "Country",
+          "name": "Worldwide (remote)"
+        }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "FL",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "https://x.com/cyberdreadx",
+        "https://tiktok.com/@cyberdreadx"
+      ],
+      "knowsLanguage": [
+        "en",
+        "es"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios de desarrollo web",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Sitios de reservas y entradas",
+              "description": "Menus de servicios, niveles de sesion, calendarios de eventos y venta de entradas."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": 1500,
+              "priceCurrency": "USD",
+              "valueAddedTaxIncluded": false
+            },
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "minValue": 1500
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Tiendas en linea",
+              "description": "Merch, productos digitales y niveles de licencia con pagos reales en tu propia cuenta de Stripe."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": 2500,
+              "priceCurrency": "USD",
+              "valueAddedTaxIncluded": false
+            },
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "minValue": 2500
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Plataformas",
+              "description": "Aplicaciones multi-usuario con cuentas, onboarding y paneles. Marketplaces, billeteras, membresias."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": 5000,
+              "priceCurrency": "USD",
+              "valueAddedTaxIncluded": false
+            },
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "minValue": 5000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://brandonmenard.dev/#website",
+      "url": "https://brandonmenard.dev/",
+      "name": "Brandon Menard // Web Developer",
+      "publisher": {
+        "@id": "https://brandonmenard.dev/#business"
+      },
+      "inLanguage": [
+        "en",
+        "es"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://brandonmenard.dev/es/#webpage",
+      "url": "https://brandonmenard.dev/es/",
+      "name": "Brandon Menard // Web Developer",
+      "description": "Sitios web a medida para terapeutas, artistas y negocios locales. Reservas, pagos, venta de entradas y plataformas completas. Sur de Florida y remoto.",
+      "isPartOf": {
+        "@id": "https://brandonmenard.dev/#website"
+      },
+      "about": {
+        "@id": "https://brandonmenard.dev/#business"
+      },
+      "inLanguage": "es",
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://brandonmenard.dev/og-image.png"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="progress" id="prog" aria-hidden="true"></div>
@@ -1085,28 +1238,41 @@ body.nav-open{overflow:hidden}
   });
 
   /* ---- count up the numeric stats ---- */
+  var statEls = [];
+  /* if a stat never finishes its count-up (loaded in a background tab, where
+     rAF is paused) snap it to the real number rather than leaving it at 0 */
+  function settleStats(){
+    statEls.forEach(function(el){
+      if (el.dataset.done !== '1') el.textContent = el.dataset.to;
+    });
+  }
   var statIO = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if (!e.isIntersecting) return;
       var el = e.target, target = parseInt(el.dataset.to, 10);
-      if (reduce){ el.textContent = target; statIO.unobserve(el); return; }
+      statIO.unobserve(el);
+      if (reduce || document.hidden){ el.textContent = target; el.dataset.done = '1'; return; }
       var t0 = null, dur = 900;
       function step(ts){
         if (!t0) t0 = ts;
         var k = Math.min(1, (ts - t0) / dur);
         el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3)));
-        if (k < 1) requestAnimationFrame(step);
+        if (k < 1) { requestAnimationFrame(step); }
+        else { el.dataset.done = '1'; }
       }
       requestAnimationFrame(step);
-      statIO.unobserve(el);
     });
   }, { threshold: 0.6 });
   document.querySelectorAll('.stats b').forEach(function(b){
     var n = parseInt(b.textContent, 10);
     if (!isNaN(n) && String(n) === b.textContent.trim()){
-      b.dataset.to = n; b.textContent = '0'; statIO.observe(b);
+      b.dataset.to = n; b.textContent = reduce ? n : '1'; statEls.push(b); statIO.observe(b);
     }
   });
+  document.addEventListener('visibilitychange', function(){
+    if (!document.hidden) settleStats();
+  });
+  window.addEventListener('pageshow', settleStats);
 
   /* ---- one rAF loop: progress rail + thumbnail parallax ---- */
   var prog = document.getElementById('prog');

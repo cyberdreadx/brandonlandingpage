@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 // Page not found — Brandon Menard</title>
+<meta name="description" content="That page doesn't exist. Head back to brandonmenard.dev or jump straight to the work.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#EDEAE2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#07070B" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+html{color-scheme:dark}
+:root{
+  --bg:#07070B; --surface:#0E0E16; --border:#242034;
+  --text:#EDE9F2; --dim:#8E88A0;
+  --mag:#FF2E88; --cyan:#00E5FF; --acid:#D7FF3E;
+}
+html[data-theme="light"]{
+  color-scheme:light;
+  --bg:#EDEAE2; --surface:#FFFFFF; --border:#15131C;
+  --text:#0B0A11; --dim:#55506A;
+  --mag:#D6006B; --cyan:#006E80; --acid:#5C7300;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:hidden;background:var(--bg);min-height:100%;transition:background .3s ease}
+body{
+  margin:0;min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:"Archivo",system-ui,sans-serif;line-height:1.6;overflow-x:hidden;
+  display:flex;flex-direction:column;
+  transition:background .3s ease,color .3s ease;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(50rem 32rem at 88% -6%, rgba(255,46,136,.16), transparent 60%),
+    radial-gradient(44rem 30rem at 4% 8%, rgba(0,229,255,.10), transparent 60%);
+  transition:background-color .3s ease;
+}
+html[data-theme="light"] body::before{
+  background-image:
+    radial-gradient(50rem 32rem at 88% -6%, rgba(214,0,107,.12), transparent 60%),
+    radial-gradient(44rem 30rem at 4% 8%, rgba(0,110,128,.10), transparent 60%);
+}
+.topbar{
+  position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:1rem clamp(1rem,4vw,2.5rem);
+  border-bottom:1px solid var(--border);
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+}
+.topbar a{color:inherit;text-decoration:none}
+.mark b{font-weight:700}
+.mark span{color:var(--dim)}
+.toggle{
+  font:inherit;cursor:pointer;color:var(--text);background:transparent;
+  border:1px solid var(--border);border-radius:999px;padding:.32rem .8rem;
+  letter-spacing:.14em;text-transform:uppercase;
+}
+.toggle:hover{border-color:var(--mag);color:var(--mag)}
+main{
+  position:relative;z-index:1;flex:1;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(3rem,10vh,7rem) clamp(1rem,4vw,2.5rem);
+  max-width:56rem;width:100%;margin:0 auto;
+}
+.code{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--mag);margin:0 0 1rem;
+}
+.code::before{content:"● "}
+h1{
+  font-family:"Syne",system-ui,sans-serif;font-weight:800;
+  font-size:clamp(3rem,13vw,7.5rem);line-height:.92;letter-spacing:-.03em;
+  margin:0 0 1.25rem;text-transform:uppercase;
+}
+h1 .cy{color:var(--cyan)}
+.lede{font-size:clamp(1rem,2.4vw,1.25rem);color:var(--dim);max-width:34rem;margin:0 0 2.25rem}
+.lede strong{color:var(--text);font-weight:600}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:3.5rem}
+.btn{
+  display:inline-block;text-decoration:none;font-weight:600;
+  font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.85rem 1.6rem;border-radius:999px;border:1px solid var(--border);
+  transition:transform .15s ease,background .15s ease,color .15s ease;
+}
+.btn-solid{background:var(--mag);color:#fff;border-color:var(--mag)}
+.btn-ghost{color:var(--text)}
+.btn:hover{transform:translateY(-2px)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+.links{border-top:1px solid var(--border);padding-top:1.5rem}
+.links h2{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--dim);font-weight:500;margin:0 0 1rem;
+}
+.links ul{list-style:none;margin:0;padding:0;display:grid;gap:.15rem;
+  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.links a{
+  display:flex;align-items:baseline;gap:.6rem;text-decoration:none;color:var(--text);
+  padding:.6rem 0;border-bottom:1px solid transparent;
+}
+.links a i{
+  font-family:"JetBrains Mono",ui-monospace,monospace;font-style:normal;
+  font-size:.7rem;color:var(--mag);letter-spacing:.1em;
+}
+.links a:hover{color:var(--mag);border-bottom-color:var(--border)}
+footer{
+  position:relative;z-index:2;border-top:1px solid var(--border);
+  padding:1rem clamp(1rem,4vw,2.5rem);
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
+  display:flex;flex-wrap:wrap;gap:.75rem;justify-content:space-between;
+}
+footer a{color:inherit;text-decoration:none}
+footer a:hover{color:var(--mag)}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .btn:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="mark" href="/"><b>BRANDON MENARD</b><span> // WEB DEV // SOFLA</span></a>
+  <button class="toggle" id="themeBtn" aria-label="Switch color theme">Dark</button>
+</div>
+
+<main>
+  <p class="code">Error 404 // page not found</p>
+  <h1>This one <span class="cy">doesn't</span> exist.</h1>
+  <p class="lede">Wrong link, old URL, or a typo. <strong>Nothing's broken on your end.</strong> Here's where everything actually lives.</p>
+
+  <div class="actions">
+    <a class="btn btn-solid" href="/">Back to the site</a>
+    <a class="btn btn-ghost" href="/#work">See the work</a>
+  </div>
+
+  <nav class="links" aria-label="Site sections">
+    <h2>$ ls /</h2>
+    <ul>
+      <li><a href="/#services"><i>01</i>What I build</a></li>
+      <li><a href="/#work"><i>02</i>The work</a></li>
+      <li><a href="/#testimonials"><i>03</i>Reviews</a></li>
+      <li><a href="/#process"><i>04</i>How it goes</a></li>
+      <li><a href="/#contact"><i>05</i>Get in touch</a></li>
+      <li><a href="/lab/"><i>06</i>The Lab</a></li>
+      <li><a href="/prompt-gallery/"><i>07</i>Filter Vault</a></li>
+      <li><a href="/es/" hreflang="es"><i>ES</i>Ver en espa&ntilde;ol</a></li>
+    </ul>
+  </nav>
+</main>
+
+<footer>
+  <span>&copy; 2026 Brandon Menard</span>
+  <span>
+    <a href="mailto:brandonmenard@proton.me">Email</a> /
+    <a href="https://wa.me/19547436264" target="_blank" rel="noopener">WhatsApp</a> /
+    <a href="https://x.com/cyberdreadx" target="_blank" rel="noopener">X</a>
+  </span>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement, btn = document.getElementById('themeBtn');
+  function label(){ btn.textContent = root.getAttribute('data-theme') === 'dark' ? 'Light' : 'Dark'; }
+  label();
+  btn.addEventListener('click', function(){
+    root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    label();
+  });
+})();
+</script>
+
+</body>
+</html>

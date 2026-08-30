@@ -1,0 +1,8 @@
+# deploy artifacts
+deploy-*.zip
+*.zip
+
+# local tooling
+.claude/
+.DS_Store
+Thumbs.db
