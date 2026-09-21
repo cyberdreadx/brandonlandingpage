@@ -525,6 +525,21 @@ body.nav-open{overflow:hidden}
 }
 .card{position:relative;max-width:100%}
 
+/* a card is one big link, so a second link inside it needs to sit above the
+   stretched hit area rather than nest inside it */
+.card .stretch{color:inherit;text-decoration:none}
+.card .stretch::after{content:"";position:absolute;inset:0;z-index:1}
+.card:has(.stretch:focus-visible){transform:translateY(-3px);border-color:var(--mag);box-shadow:var(--shadow)}
+.card .store{
+  position:relative;z-index:4;align-self:flex-start;margin-top:.7rem;
+  display:inline-flex;align-items:center;gap:.4rem;text-decoration:none;
+  font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);
+  border:1px solid var(--border);border-radius:999px;padding:.42rem .8rem;
+  transition:border-color .18s ease,color .18s ease;
+}
+.card .store:hover,.card .store:focus-visible{border-color:var(--cyan)}
+
 /* marquee strip */
 .marquee{
   position:relative;overflow:hidden;max-width:100%;
@@ -848,6 +863,19 @@ body.nav-open{overflow:hidden}
             <div class="tags"><span>Events</span><span>Ticketing</span></div>
           </div>
         </a>
+        <a class="card" href="https://yogamusicfest.mx" target="_blank" rel="noopener">
+          <div class="shot">
+            <div class="fallback">TY</div>
+            <img src="/images/yogamusicfest.webp" alt="Tulum Yoga Music Fest homepage" loading="lazy" onerror="this.remove()">
+          </div>
+          <div class="body">
+            <h4>Tulum Yoga Music Fest</h4>
+            <span class="url">yogamusicfest.mx</span>
+            <span class="brief">A festival week, ticketed in pesos.</span>
+            <p>Week-long yoga and conscious music festival in Tulum. Tiered passes sold in pesos with discount codes and instant e-tickets, plus a full agenda, venue map and vendor and affiliate sign-ups. Runs in Spanish and English.</p>
+            <div class="tags"><span>Ticketing</span><span>Bilingual</span><span>Agenda</span></div>
+          </div>
+        </a>
 
       </div>
     </div>
@@ -1025,19 +1053,21 @@ body.nav-open{overflow:hidden}
           </div>
         </a>
 
-        <a class="card" href="https://qwalla.io" target="_blank" rel="noopener">
+        <div class="card">
           <div class="shot">
+            <span class="flag">iOS app</span>
             <div class="fallback">QW</div>
             <img src="/images/qwalla.webp" alt="Qwalla homepage" loading="lazy" onerror="this.remove()">
           </div>
           <div class="body">
-            <h4>Qwalla</h4>
+            <h4><a class="stretch" href="https://qwalla.io" target="_blank" rel="noopener">Qwalla</a></h4>
             <span class="url">qwalla.io</span>
             <span class="brief">Encrypted wallet, chat and mail.</span>
-            <p>Encrypted wallet and messaging app. Send, chat and mail with end to end encryption designed to hold up against quantum attacks.</p>
-            <div class="tags"><span>Cryptography</span><span>Wallet</span><span>PWA</span></div>
+            <p>Encrypted wallet and messaging app. Send, chat and mail with end to end encryption designed to hold up against quantum attacks. Now shipping as a native app on the App Store.</p>
+            <div class="tags"><span>Cryptography</span><span>Wallet</span><span>iOS app</span></div>
+            <a class="store" href="https://apps.apple.com/us/app/qwalla/id6794071016" target="_blank" rel="noopener">Download on the App Store ↗</a>
           </div>
-        </a>
+        </div>
 
         <a class="card" href="https://rougechain.io" target="_blank" rel="noopener">
           <div class="shot">
@@ -1050,6 +1080,33 @@ body.nav-open{overflow:hidden}
             <span class="brief">The Layer 1 network behind Qwalla.</span>
             <p>The Layer 1 network Qwalla runs on. Protocol, site and the surrounding brand.</p>
             <div class="tags"><span>Protocol</span><span>Brand</span></div>
+          </div>
+        </a>
+        <a class="card" href="https://rougee.app" target="_blank" rel="noopener">
+          <div class="shot">
+            <span class="flag">Testnet</span>
+            <div class="fallback">RG</div>
+            <img src="/images/rougee.webp" alt="RouGee homepage" loading="lazy" onerror="this.remove()">
+          </div>
+          <div class="body">
+            <h4>RouGee</h4>
+            <span class="url">rougee.app</span>
+            <span class="brief">A photo network nobody can evict you from.</span>
+            <p>Decentralised photo network on RougeChain. Your account is a key you hold rather than a row in a database, posts and follows are signed on-chain, and images sit on IPFS so nothing can be quietly removed. Running on testnet.</p>
+            <div class="tags"><span>On-chain social</span><span>IPFS</span><span>Key auth</span></div>
+          </div>
+        </a>
+        <a class="card" href="https://music.rougee.app" target="_blank" rel="noopener">
+          <div class="shot">
+            <div class="fallback">QR</div>
+            <img src="/images/qrougee.webp" alt="qRougee homepage" loading="lazy" onerror="this.remove()">
+          </div>
+          <div class="body">
+            <h4>qRougee</h4>
+            <span class="url">music.rougee.app</span>
+            <span class="brief">Music that pays the artist directly.</span>
+            <p>Streaming built on RougeChain where tracks are minted as NFTs. Artists keep their keys, plays are transparent on-chain, and royalties and resale are handled by the contract instead of a label. Live on mainnet, waiting on its first tracks.</p>
+            <div class="tags"><span>Music NFTs</span><span>Royalties</span><span>Streaming</span></div>
           </div>
         </a>
 
@@ -1206,7 +1263,8 @@ body.nav-open{overflow:hidden}
   /* ---- marquee content, built from the real work ---- */
   var items = ['booking sites','ticketing','storefronts','marketplaces','local SEO','Stripe checkout',
                'miracosu.com','sdarlotus.com','skateburn.com','viste.app','afterz','royalgeniusproduction.com',
-               'yourcrawfordteam.com','qwalla.io','breatheandbloomretreats.com'];
+               'yourcrawfordteam.com','qwalla.io','breatheandbloomretreats.com',
+               'yogamusicfest.mx'];
   var track = document.getElementById('mqTrack');
   if (track){
     var html = items.map(function(t){ return '<span>' + t + ' <i>//</i></span>'; }).join('');

@@ -165,6 +165,11 @@ h2{
 }
 .meta .live{color:#4ade80}
 .card .arrow{position:absolute;top:20px;right:22px;color:var(--violet);font-family:var(--mono)}
+.card .stretch{color:inherit;text-decoration:none}
+.card .stretch::after{content:"";position:absolute;inset:0}
+.card:has(.stretch:focus-visible){background:var(--panel-2);border-color:var(--violet);transform:translateY(-2px)}
+.meta .store{position:relative;z-index:1;color:var(--phosphor);text-decoration:none;border-bottom:1px solid transparent}
+.meta .store:hover,.meta .store:focus-visible{border-bottom-color:currentColor}
 
 /* ---------- COMMITS ---------- */
 .commits{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:20px}
@@ -283,7 +288,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
 
 <section id="builds">
   <div class="wrap">
-    <p class="cmd"><i>$</i> ls <b>./builds</b> —— 5 volumes mounted</p>
+    <p class="cmd"><i>$</i> ls <b>./builds</b> —— 7 volumes mounted</p>
     <h2>Things I made<br>that shouldn't exist</h2>
     <p class="sub">Every one of these started as a post on the page. These are the live versions.</p>
 
@@ -294,12 +299,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
         <p>A Layer 1 built quantum-resistant from genesis, not patched into it later. Ticker: XRGE.</p>
         <div class="meta"><span class="live">● LIVE</span><span>Layer 1</span><span>Post-quantum</span><span>rougechain.io</span></div>
       </a>
-      <a class="card reveal" href="https://qwalla.io">
+      <div class="card reveal">
         <span class="arrow">↗</span>
-        <h3>Qwalla</h3>
-        <p>Encrypted wallet, messenger and mail in one app. Send value and words down the same private pipe.</p>
-        <div class="meta"><span class="live">● LIVE</span><span>Wallet</span><span>Messaging</span></div>
-      </a>
+        <h3><a class="stretch" href="https://qwalla.io">Qwalla</a></h3>
+        <p>Encrypted wallet, messenger and mail in one app. Send value and words down the same private pipe. Now a native app — free on the App Store, APK for Android.</p>
+        <div class="meta"><span class="live">● LIVE</span><span>Wallet</span><span>Messaging</span><a class="store" href="https://apps.apple.com/us/app/qwalla/id6794071016">iOS · App Store ↗</a></div>
+      </div>
       <a class="card reveal" href="https://antireddit.com">
         <span class="arrow">↗</span>
         <h3>AntiReddit</h3>
@@ -317,6 +322,18 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
         <h3>Dread_OS</h3>
         <p>A full desktop operating system that boots inside a browser tab. The post that did 28.2K.</p>
         <div class="meta"><span>● DEMO</span><span>Browser OS</span><span>Web</span></div>
+      </a>
+      <a class="card reveal" href="https://rougee.app">
+        <span class="arrow">↗</span>
+        <h3>RouGee</h3>
+        <p>A photo network where the account is a key you hold, posts are signed on-chain and images live on IPFS. Nothing can be quietly removed.</p>
+        <div class="meta"><span class="live" style="color:var(--violet-hot)">● TESTNET</span><span>On-chain social</span><span>IPFS</span></div>
+      </a>
+      <a class="card reveal" href="https://music.rougee.app">
+        <span class="arrow">↗</span>
+        <h3>qRougee</h3>
+        <p>Streaming where tracks are minted as NFTs. Artists keep their keys, plays are transparent, and the contract handles royalties instead of a label.</p>
+        <div class="meta"><span class="live">● LIVE</span><span>Music NFTs</span><span>Royalties</span></div>
       </a>
     </div>
 
@@ -338,7 +355,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
   <div class="wrap">
     <p class="cmd"><i>$</i> cd <b>../work</b> —— the paid side</p>
     <h2>I also build<br>the boring stuff</h2>
-    <p class="sub">Booking flows, storefronts, ticketing, full platforms — for practitioners, performers and local businesses in South Florida and remote. Fifteen live sites, custom code, your accounts, you own it.</p>
+    <p class="sub">Booking flows, storefronts, ticketing, full platforms — for practitioners, performers and local businesses in South Florida and remote. Eighteen live sites, custom code, your accounts, you own it.</p>
     <div class="cta-row" style="margin-top:28px">
       <a class="btn btn-solid" href="/">See the client work</a>
       <a class="btn btn-ghost" href="https://calendly.com/brandonmenard/30min">Book 30 minutes</a>
