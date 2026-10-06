@@ -1295,43 +1295,6 @@ body.nav-open{overflow:hidden}
     io.observe(el);
   });
 
-  /* ---- count up the numeric stats ---- */
-  var statEls = [];
-  /* if a stat never finishes its count-up (loaded in a background tab, where
-     rAF is paused) snap it to the real number rather than leaving it at 0 */
-  function settleStats(){
-    statEls.forEach(function(el){
-      if (el.dataset.done !== '1') el.textContent = el.dataset.to;
-    });
-  }
-  var statIO = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if (!e.isIntersecting) return;
-      var el = e.target, target = parseInt(el.dataset.to, 10);
-      statIO.unobserve(el);
-      if (reduce || document.hidden){ el.textContent = target; el.dataset.done = '1'; return; }
-      var t0 = null, dur = 900;
-      function step(ts){
-        if (!t0) t0 = ts;
-        var k = Math.min(1, (ts - t0) / dur);
-        el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3)));
-        if (k < 1) { requestAnimationFrame(step); }
-        else { el.dataset.done = '1'; }
-      }
-      requestAnimationFrame(step);
-    });
-  }, { threshold: 0.6 });
-  document.querySelectorAll('.stats b').forEach(function(b){
-    var n = parseInt(b.textContent, 10);
-    if (!isNaN(n) && String(n) === b.textContent.trim()){
-      b.dataset.to = n; b.textContent = reduce ? n : '1'; statEls.push(b); statIO.observe(b);
-    }
-  });
-  document.addEventListener('visibilitychange', function(){
-    if (!document.hidden) settleStats();
-  });
-  window.addEventListener('pageshow', settleStats);
-
   /* ---- one rAF loop: progress rail + thumbnail parallax ---- */
   var prog = document.getElementById('prog');
   var shots = [].slice.call(document.querySelectorAll('.shot img'));
